@@ -1,12 +1,17 @@
 const express = require('express');
 const axios = require('axios');
-const cors = require('cors');
 
 const app = express();
-app.use(cors({
-  origin: '*'
-}));
 app.use(express.json());
+
+// Manual CORS headers
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') return res.sendStatus(200);
+  next();
+});
 
 // ============================================
 // CONFIG - Yeh values Vercel environment variables mein daalni hain
